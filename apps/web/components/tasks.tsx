@@ -8,7 +8,7 @@ export default async function Tasks() {
 
   return (
     <div>
-      <h3 className="text-2xl font-medium mb-3">Pending</h3>
+      <h3 className="text-2xl font-semibold mb-3">Pending</h3>
 
       <ul className="space-y-3">
         {tasks &&
