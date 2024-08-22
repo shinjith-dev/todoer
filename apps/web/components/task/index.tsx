@@ -13,7 +13,7 @@ export default function Task({ task: prevTaskValue }: Props) {
   const [task, setTask] = useState<TTask>(prevTaskValue);
 
   const update = async (status: string) => {
-    const newTask = await updateStatus(task.id, status);
+    const newTask = await updateStatus(task?.id ?? -1, status);
     if (newTask) setTask(newTask[0]);
   };
 

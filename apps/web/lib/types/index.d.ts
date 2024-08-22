@@ -2,9 +2,9 @@ import type { Database } from "./supabase";
 
 export interface TTask {
   completed: boolean | null;
-  created_at: string;
+  created_at?: string;
   description?: string | null;
-  id: number;
+  id?: number;
   name: string;
   status: string;
 }
