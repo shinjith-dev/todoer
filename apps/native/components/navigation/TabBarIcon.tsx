@@ -1,12 +1,12 @@
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+import { IconListCheck, IconListDetails } from "@tabler/icons-react-native";
 
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { type IconProps } from "@expo/vector-icons/build/createIconSet";
-import { type ComponentProps } from "react";
+type Props = {
+  name: string;
+  color: string;
+};
 
-export function TabBarIcon({
-  style,
-  ...rest
-}: IconProps<ComponentProps<typeof Ionicons>["name"]>) {
-  return <Ionicons size={28} style={[{ marginBottom: -3 }, style]} {...rest} />;
+export function TabBarIcon({ name, color, ...rest }: Props) {
+  if (name === "pending") return <IconListDetails color={color} {...rest} />;
+
+  if (name === "all") return <IconListCheck color={color} {...rest} />;
 }
