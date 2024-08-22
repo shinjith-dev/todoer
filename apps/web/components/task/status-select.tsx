@@ -1,8 +1,13 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
-export default function StatusSelect() {
+type Props = {
+  status: string;
+  updateStatus: (status: string) => void
+}
+
+export default function StatusSelect({ status, updateStatus }: Props) {
   return (
-    <Select>
+    <Select value={status} onValueChange={updateStatus}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Status" />
       </SelectTrigger>
