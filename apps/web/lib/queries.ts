@@ -1,38 +1,42 @@
-import { createClient } from "./supabase/server"
-import { createClient as createCClient } from "./supabase/client"
+import { createClient } from "./supabase/server";
+import { createClient as createCClient } from "./supabase/client";
 
 export const getTasks = async (cookieStore: any) => {
-  const supabase = createClient(cookieStore)
+  const supabase = createClient(cookieStore);
 
   try {
-    const { data, error } = await supabase.from('tasks').select()
+    const { data, error } = await supabase.from("tasks").select();
 
     if (error) {
-      return []
+      return [];
     }
 
-    return data
+    return data;
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 
-  return []
-}
+  return [];
+};
 
 export const updateStatus = async (id: number, status: string) => {
-  const supabase = createCClient()
+  const supabase = createCClient();
 
   try {
-    const { error, data } = await supabase.from('tasks').update({ status, completed: status === 'completed' }).eq('id', id).select()
+    const { error, data } = await supabase
+      .from("tasks")
+      .update({ status, completed: status === "completed" })
+      .eq("id", id)
+      .select();
 
     if (error) {
-      return null
+      return null;
     }
 
-    return data
+    return data;
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 
-  return null
-}
+  return null;
+};

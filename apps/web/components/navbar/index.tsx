@@ -1,4 +1,3 @@
-
 export default async function Navbar() {
   return (
     <div className="absolute left-0 top-0 z-[999] w-screen">
@@ -6,7 +5,6 @@ export default async function Navbar() {
         <h3 className="font-serif text-lg font-bold sm:text-xl xl:text-2xl">
           Todoer
         </h3>
-
       </div>
     </div>
   );

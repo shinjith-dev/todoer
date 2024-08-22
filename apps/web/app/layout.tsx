@@ -3,7 +3,6 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import { inter, karla } from "@/lib/fonts";
 
-
 export const metadata: Metadata = {
   title: "Todoer",
   description: "Cross Platform Task Management",

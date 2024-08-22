@@ -48,6 +48,7 @@ const config: Config = {
         border: "hsl(var(--col-border) / <alpha-value>)",
       },
     },
-  }, plugins: [],
+  },
+  plugins: [],
 };
 export default config;

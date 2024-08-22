@@ -1,9 +1,15 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 type Props = {
   status: string;
-  updateStatus: (status: string) => void
-}
+  updateStatus: (status: string) => void;
+};
 
 export default function StatusSelect({ status, updateStatus }: Props) {
   return (
@@ -17,5 +23,5 @@ export default function StatusSelect({ status, updateStatus }: Props) {
         <SelectItem value="completed">Completed</SelectItem>
       </SelectContent>
     </Select>
-  )
+  );
 }
