@@ -59,3 +59,21 @@ export const addTask = async (task: TTask) => {
 
   return null;
 };
+
+export const removeTask = async (id: number) => {
+  const supabase = createCClient();
+
+  try {
+    const { error } = await supabase.from("tasks").delete().eq("id", id);
+
+    if (error) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.log(err);
+  }
+
+  return false;
+};
