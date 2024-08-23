@@ -10,7 +10,6 @@ import { useEffect } from "react";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SheetProvider } from "react-native-actions-sheet";
 import "@/components/sheets";
-import QueryProvider from "./query-provider";
 import tw from "@/lib/twrnc";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -34,25 +33,19 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <QueryProvider>
-        <SheetProvider>
-          <Stack screenOptions={{ statusBarColor: "#233442" }}>
-            <Stack.Screen
-              name="(tabs)"
-              options={{
-                headerStyle: tw`bg-surface`,
-                headerTitleAlign: "center",
-                headerTitle: "Todoer",
-              }}
-            />
-            <Stack.Screen
-              name="task"
-              options={{ presentation: "modal", headerShown: false }}
-            />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-        </SheetProvider>
-      </QueryProvider>
+      <SheetProvider>
+        <Stack screenOptions={{ statusBarColor: "#233442" }}>
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              headerStyle: tw`bg-surface`,
+              headerTitleAlign: "center",
+              headerTitle: "Todoer",
+            }}
+          />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+      </SheetProvider>
     </ThemeProvider>
   );
 }

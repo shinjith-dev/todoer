@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import tw from "@/lib/twrnc";
 import { addTask, updateTask } from "@/lib/queries";
 import { TTask } from "@/lib/types";
+import { router } from "expo-router";
 
 export default function TaskForm({
   edit,
@@ -14,6 +15,7 @@ export default function TaskForm({
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -22,19 +24,23 @@ export default function TaskForm({
     },
   });
   const onSubmit = async (data: any) => {
+    const task = { ...data, status: 'pending', completed: false }
+
     const newTask = edit
-      ? await updateTask(edit?.id ?? -1, data)
-      : await addTask(data);
+      ? await updateTask(edit?.id ?? -1, task)
+      : await addTask(task);
+
     if (newTask) {
       if (edit) Alert.alert("Task updated", `Task "${edit.name}" is updated`);
       else
         Alert.alert(
           "New Task Added",
-          `New task "${newTask[0].name}" is added to tasks`,
+          `New task "${newTask.name}" is added to tasks`,
         );
     }
     close();
-    // router.push('/')
+    reset()
+    router.push('/')
   };
 
   return (

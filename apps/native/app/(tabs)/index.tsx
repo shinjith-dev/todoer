@@ -5,6 +5,7 @@ import Tasks from "@/components/tasks";
 import { useEffect, useState } from "react";
 import { TTask } from "@/lib/types";
 import { getTasks } from "@/lib/queries";
+import { useFocusEffect } from "expo-router";
 
 export default function HomeScreen() {
   const [tasks, setTasks] = useState<TTask[]>([]);
@@ -12,17 +13,23 @@ export default function HomeScreen() {
 
   useEffect(() => {
     getTasks()
-      .then(({ data, error }) => {
-        if (error) {
-          console.error("Failed fetch tasks", error);
-          return;
-        }
+      .then((data) => {
         if (data && data.length > 0) setTasks(data);
       })
       .catch((err) => {
         console.error("Failed fetch tasks", err);
       });
   }, [forceUpdate]);
+
+  useFocusEffect(() => {
+    getTasks()
+      .then((data) => {
+        if (data && data.length > 0) setTasks(data);
+      })
+      .catch((err) => {
+        console.error("Failed fetch tasks", err);
+      });
+  })
 
   return (
     <SafeAreaView style={tw`pt-4 bg-background h-full px-5`}>

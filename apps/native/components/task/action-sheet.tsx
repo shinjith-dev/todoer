@@ -18,7 +18,7 @@ export default function TaskAction({
       payload?.refresh();
       Alert.alert(
         "Task status updated",
-        `Task status of "${payload?.task.name}" is updated to ${newTask[0].status}`,
+        `Task status of "${payload?.task.name}" is updated to ${newTask.status}`,
       );
     }
     SheetManager.hide("task-action");

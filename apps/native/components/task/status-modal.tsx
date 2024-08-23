@@ -16,23 +16,29 @@ export default function StatusModal({ task, close, refresh }: Props) {
   const [status, setStatus] = useState<string>(task.status);
   const [open, setOpen] = useState(true);
 
-  const update = async (newStatus: string) => {
-    console.log("update status of", task.id, "to", newStatus);
-    const newTask = await updateStatus(task?.id ?? -1, newStatus);
-    if (newTask) {
-      refresh();
-      setStatus(newTask[0].status);
-      Alert.alert(
-        "Task status updated",
-        `Task status of "${task.name}" is updated to ${newTask[0].status}`,
-      );
-    }
-    setOpen(false);
-  };
 
   useEffect(() => {
     if (!open) close();
   }, [open]);
+
+  useEffect(() => {
+    const update = async (newStatus: string) => {
+      const newTask = await updateStatus(task?.id ?? -1, newStatus);
+      if (newTask) {
+
+        Alert.alert(
+          "Task status updated",
+          `Task status of "${task.name}" is updated to ${newTask.status}`,
+        );
+
+        setTimeout(() => {
+          refresh();
+        }, 600)
+      }
+    };
+
+    if (task.status !== status) update(status)
+  }, [status])
 
   return (
     <View style={tw`h-full flex justify-center items-center`}>
@@ -41,7 +47,6 @@ export default function StatusModal({ task, close, refresh }: Props) {
         transparent={true}
         visible={open}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setOpen(false);
         }}
       >
@@ -57,7 +62,7 @@ export default function StatusModal({ task, close, refresh }: Props) {
 
             <RNPickerSelect
               value={status}
-              onValueChange={update}
+              onValueChange={setStatus}
               items={[
                 { label: "Pending", value: "pending" },
                 { label: "Ongoing", value: "ongoing" },
