@@ -20,8 +20,7 @@ Cross platform task management app
 - Nextjs - React framework for web
 - Tailwind - Styling
 - Radix UI Components - components like select, dialog, ...
-- Supabase - Database provider
-  - Postgres - database
+- MockAPI - API endpoints
 - TypeScript - for static type checking
 - React Hook Form - forms
   - zod - form validation
@@ -44,7 +43,7 @@ Install dependencies
 
 ## Web
 
-Run below command, please ensure that environment variables mentioned below are set
+Run below command
 
 ```bash
   cd apps/web
@@ -76,21 +75,10 @@ Scan QR Code generated on the terminal, it install required version of expo go a
 
 To run this project, you will need to add the following environment variables to your .env file
 
-### For Web
-
-```env
-  # apps/web/.env
-
-  EXPO_PUBLIC_SUPABASE_URL= # obtained from supabase project dashboard
-  EXPO_PUBLIC_SUPABASE_ANON_KEY= # obtained from supabase project dashboard
-```
-
 ### For Mobile app
 
 ```env
   # apps/native/.env
 
-  EXPO_USE_METRO_WORKSPACE_ROOT=1 # it`s a mandatory flag for expo on monorepo
-  EXPO_PUBLIC_SUPABASE_URL= # obtained from supabase project dashboard
-  EXPO_PUBLIC_SUPABASE_ANON_KEY= # obtained from supabase project dashboard
+  EXPO_USE_METRO_WORKSPACE_ROOT=1 # it`s a mandatory flag for expo on a monorepo
 ```
