@@ -60,6 +60,24 @@ export const addTask = async (task: TTask) => {
   return null;
 };
 
+export const updateTask = async (id: number, task: TTask) => {
+  const supabase = createCClient();
+
+  try {
+    const { error, data } = await supabase.from("tasks").update({ ...task }).eq('id', id).select();
+
+    if (error) {
+      return null;
+    }
+
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+
+  return null;
+};
+
 export const removeTask = async (id: number) => {
   const supabase = createCClient();
 

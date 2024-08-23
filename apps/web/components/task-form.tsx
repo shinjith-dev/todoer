@@ -5,8 +5,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
-import { addTask } from "@/lib/queries";
+import { addTask, updateTask } from "@/lib/queries";
 import { useRouter } from "next/navigation";
+import { TTask } from "@/lib/types";
 
 const TaskSchema = z
   .object({
@@ -18,28 +19,29 @@ const TaskSchema = z
   .required();
 
 const defaultValues = {
-  status: "pending",
   completed: false,
 };
 
 type Props = {
+  edit?: TTask
   close: () => void;
 };
 
-export default function TaskForm({ close }: Props) {
+export default function TaskForm({ edit, close }: Props) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<z.infer<typeof TaskSchema>>({
     resolver: zodResolver(TaskSchema),
-    defaultValues,
+    defaultValues: { ...defaultValues, name: edit?.name ?? "", description: edit?.description ?? "" },
   });
 
   const router = useRouter();
 
   const onSubmit = async (data: z.infer<typeof TaskSchema>) => {
-    const newTask = await addTask(data);
+    console.log('onSubmit')
+    const newTask = edit ? await updateTask(edit?.id ?? -1, data) : await addTask(data);
 
     console.log(newTask);
     close();
@@ -73,7 +75,7 @@ export default function TaskForm({ close }: Props) {
       />
 
       <div className="flex justify-end">
-        <Button className="w-fit">Add new task</Button>
+        <Button type="submit" className="w-fit">{edit ? "Save task" : "Add new task"}</Button>
       </div>
     </form>
   );

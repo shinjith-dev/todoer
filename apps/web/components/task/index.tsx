@@ -7,6 +7,7 @@ import { useState } from "react";
 import { IconCheck, IconPencil, IconTrash } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { PopupWrapper } from "./pop-up";
+import { EditTask } from "../edit-task";
 
 type Props = {
   task: TTask;
@@ -47,14 +48,7 @@ export default function Task({ task: prevTaskValue }: Props) {
             >
               <IconTrash size={18} className="text-destructive-fg" />
             </Button>
-            <Button
-              title="Edit task"
-              variant="icon"
-              size="icon"
-              className="bg-overlay/75 hover:bg-overlay/50"
-            >
-              <IconPencil size={18} className="text-secondary" />
-            </Button>
+            <EditTask task={task} />
             <Button
               title="Mark task as completed"
               variant="icon"

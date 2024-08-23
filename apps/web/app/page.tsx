@@ -14,7 +14,9 @@ export default function Home() {
         </p>
       </div>
 
-      <Tasks />
+      <Tasks status="Pending" />
+      <Tasks status="Ongoing" />
+      <Tasks status="Completed" />
     </div>
   );
 }
