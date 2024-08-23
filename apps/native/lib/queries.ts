@@ -5,7 +5,6 @@ export const getTasks = async () => {
   try {
     const res = await axios.get("/task");
 
-
     if (res?.data) return res.data as TTask[];
   } catch (err) {
     console.log(err);

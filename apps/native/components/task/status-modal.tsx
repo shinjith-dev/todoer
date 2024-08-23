@@ -3,8 +3,9 @@ import tw from "@/lib/twrnc";
 import { TTask } from "@/lib/types";
 import { IconX } from "@tabler/icons-react-native";
 import React, { useState, useEffect } from "react";
-import { Alert, Modal, Text, TouchableOpacity, View } from "react-native";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
+import * as Burnt from "burnt";
 
 type Props = {
   task: TTask;
@@ -16,7 +17,6 @@ export default function StatusModal({ task, close, refresh }: Props) {
   const [status, setStatus] = useState<string>(task.status);
   const [open, setOpen] = useState(true);
 
-
   useEffect(() => {
     if (!open) close();
   }, [open]);
@@ -25,20 +25,20 @@ export default function StatusModal({ task, close, refresh }: Props) {
     const update = async (newStatus: string) => {
       const newTask = await updateStatus(task?.id ?? -1, newStatus);
       if (newTask) {
-
-        Alert.alert(
-          "Task status updated",
-          `Task status of "${task.name}" is updated to ${newTask.status}`,
-        );
+        Burnt.toast({
+          title: "Task status updated",
+          message: `Task status of "${task.name}" is updated to ${newTask.status}`,
+          from: "top",
+        });
 
         setTimeout(() => {
           refresh();
-        }, 600)
+        }, 600);
       }
     };
 
-    if (task.status !== status) update(status)
-  }, [status])
+    if (task.status !== status) update(status);
+  }, [status]);
 
   return (
     <View style={tw`h-full flex justify-center items-center`}>

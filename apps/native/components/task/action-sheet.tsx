@@ -7,6 +7,7 @@ import { View, Text, TouchableOpacity, Alert } from "react-native";
 import tw from "@/lib/twrnc";
 import { useMemo } from "react";
 import { removeTask, updateStatus } from "@/lib/queries";
+import * as Burnt from "burnt";
 
 export default function TaskAction({
   sheetId,
@@ -16,10 +17,11 @@ export default function TaskAction({
     const newTask = await updateStatus(payload?.task?.id ?? -1, status);
     if (newTask) {
       payload?.refresh();
-      Alert.alert(
-        "Task status updated",
-        `Task status of "${payload?.task.name}" is updated to ${newTask.status}`,
-      );
+      Burnt.toast({
+        title: "Task status updated",
+        message: `Task status of "${payload?.task.name}" is updated to ${newTask.status}`,
+        from: "top",
+      });
     }
     SheetManager.hide("task-action");
   };
@@ -28,7 +30,11 @@ export default function TaskAction({
     const isRemoved = await removeTask(payload?.task?.id ?? -1);
     if (isRemoved) {
       payload?.refresh();
-      Alert.alert("Task deleted", `Task "${payload?.task.name}" is deleted`);
+      Burnt.toast({
+        title: "Task deleted",
+        message: `Task "${payload?.task.name}" is deleted`,
+        from: "top",
+      });
     }
     SheetManager.hide("task-action");
   };

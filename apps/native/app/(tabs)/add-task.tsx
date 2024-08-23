@@ -21,7 +21,7 @@ export default function AddTask() {
           </Text>
         </View>
 
-        <TaskForm close={() => { }} />
+        <TaskForm close={() => {}} />
       </View>
     </SafeAreaView>
   );

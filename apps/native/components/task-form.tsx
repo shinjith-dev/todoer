@@ -4,6 +4,7 @@ import tw from "@/lib/twrnc";
 import { addTask, updateTask } from "@/lib/queries";
 import { TTask } from "@/lib/types";
 import { router } from "expo-router";
+import * as Burnt from "burnt";
 
 export default function TaskForm({
   edit,
@@ -24,23 +25,24 @@ export default function TaskForm({
     },
   });
   const onSubmit = async (data: any) => {
-    const task = { ...data, status: 'pending', completed: false }
+    const task = { ...data, status: "pending", completed: false };
 
     const newTask = edit
       ? await updateTask(edit?.id ?? -1, task)
       : await addTask(task);
 
     if (newTask) {
-      if (edit) Alert.alert("Task updated", `Task "${edit.name}" is updated`);
-      else
-        Alert.alert(
-          "New Task Added",
-          `New task "${newTask.name}" is added to tasks`,
-        );
+      Burnt.toast({
+        title: edit ? "Task added" : "Task saved",
+        message: edit
+          ? `Task "${edit.name}" is updated`
+          : `New task "${newTask.name}" is added`,
+        from: "top",
+      });
     }
     close();
-    reset()
-    router.push('/')
+    reset();
+    router.push("/");
   };
 
   return (

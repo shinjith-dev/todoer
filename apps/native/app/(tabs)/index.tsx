@@ -29,7 +29,7 @@ export default function HomeScreen() {
       .catch((err) => {
         console.error("Failed fetch tasks", err);
       });
-  })
+  });
 
   return (
     <SafeAreaView style={tw`pt-4 bg-background h-full px-5`}>
