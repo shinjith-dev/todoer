@@ -1,15 +1,30 @@
-import { cookies } from "next/headers";
+"use client";
+import { useEffect, useState } from "react";
 import Task from "./task";
 import { getTasks } from "@/lib/queries";
+import { TTask } from "@/lib/types";
 
-export default async function Tasks({ status }: { status: string }) {
-  const cookieStore = cookies();
-  const tasks = await getTasks(cookieStore);
+export default function Tasks({ status }: { status: string }) {
+  const [tasks, setTasks] = useState<TTask[]>([]);
 
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const data = await getTasks();
 
-  if (!tasks) return null
+        if (data && data.length > 0) setTasks(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  if (tasks.filter(t => t.status === status.toLowerCase()).length === 0) return null
+    fetchTasks();
+  }, []);
+
+  if (!tasks) return null;
+
+  if (tasks.filter((t) => t.status === status.toLowerCase()).length === 0)
+    return null;
 
   return (
     <div>
@@ -17,11 +32,13 @@ export default async function Tasks({ status }: { status: string }) {
 
       <ul className="space-y-3">
         {tasks &&
-          tasks.filter(t => t.status === status.toLowerCase()).map((t) => (
-            <li key={t.id}>
-              <Task task={t} />
-            </li>
-          ))}
+          tasks
+            .filter((t) => t.status === status.toLowerCase())
+            .map((t) => (
+              <li key={t.id}>
+                <Task task={t} />
+              </li>
+            ))}
       </ul>
     </div>
   );

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { inter, karla } from "@/lib/fonts";
+import { Toaster } from "./toaster";
 
 export const metadata: Metadata = {
   title: "Todoer",
@@ -22,6 +23,7 @@ export default function RootLayout({
         <main className="container h-full max-h-screen max-w-screen-lg overflow-y-auto">
           {children}
         </main>
+        <Toaster />
       </body>
     </html>
   );

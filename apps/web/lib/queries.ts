@@ -1,18 +1,11 @@
-import { createClient } from "./supabase/server";
-import { createClient as createCClient } from "./supabase/client";
+import axios from "./axios";
 import { TTask } from "./types";
 
-export const getTasks = async (cookieStore: any) => {
-  const supabase = createClient(cookieStore);
-
+export const getTasks = async () => {
   try {
-    const { data, error } = await supabase.from("tasks").select();
+    const res = await axios.get("/task");
 
-    if (error) {
-      return [];
-    }
-
-    return data;
+    if (res?.data) return res.data as TTask[];
   } catch (err) {
     console.log(err);
   }
@@ -21,20 +14,13 @@ export const getTasks = async (cookieStore: any) => {
 };
 
 export const updateStatus = async (id: number, status: string) => {
-  const supabase = createCClient();
-
   try {
-    const { error, data } = await supabase
-      .from("tasks")
-      .update({ status, completed: status === "completed" })
-      .eq("id", id)
-      .select();
+    const res = await axios.put(`/task/${id}`, {
+      status,
+      completed: status === "completed",
+    });
 
-    if (error) {
-      return null;
-    }
-
-    return data;
+    if (res?.data) return res.data;
   } catch (err) {
     console.log(err);
   }
@@ -42,17 +28,11 @@ export const updateStatus = async (id: number, status: string) => {
   return null;
 };
 
-export const addTask = async (task: TTask) => {
-  const supabase = createCClient();
-
+export const addTask = async (task: any) => {
   try {
-    const { error, data } = await supabase.from("tasks").insert(task).select();
+    const res = await axios.post("/task", task);
 
-    if (error) {
-      return null;
-    }
-
-    return data;
+    if (res?.data) return res.data;
   } catch (err) {
     console.log(err);
   }
@@ -60,17 +40,11 @@ export const addTask = async (task: TTask) => {
   return null;
 };
 
-export const updateTask = async (id: number, task: TTask) => {
-  const supabase = createCClient();
-
+export const updateTask = async (id: number, task: any) => {
   try {
-    const { error, data } = await supabase.from("tasks").update({ ...task }).eq('id', id).select();
+    const res = await axios.put(`/task/${id}`, task);
 
-    if (error) {
-      return null;
-    }
-
-    return data;
+    if (res?.data) return res.data;
   } catch (err) {
     console.log(err);
   }
@@ -79,14 +53,8 @@ export const updateTask = async (id: number, task: TTask) => {
 };
 
 export const removeTask = async (id: number) => {
-  const supabase = createCClient();
-
   try {
-    const { error } = await supabase.from("tasks").delete().eq("id", id);
-
-    if (error) {
-      return false;
-    }
+    await axios.delete(`/task/${id}`);
 
     return true;
   } catch (err) {

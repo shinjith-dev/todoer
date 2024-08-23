@@ -9,7 +9,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { TTask } from "@/lib/types";
-import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { ReactNode } from "react";
 import StatusSelect from "./status-select";
 

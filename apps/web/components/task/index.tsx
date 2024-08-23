@@ -4,10 +4,10 @@ import { Button } from "../ui/button";
 import StatusSelect from "./status-select";
 import { removeTask, updateStatus } from "@/lib/queries";
 import { useState } from "react";
-import { IconCheck, IconPencil, IconTrash } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
+import { IconCheck, IconTrash } from "@tabler/icons-react";
 import { PopupWrapper } from "./pop-up";
 import { EditTask } from "../edit-task";
+import { useToast } from "@/hooks/use-toast";
 
 type Props = {
   task: TTask;
@@ -15,16 +15,34 @@ type Props = {
 
 export default function Task({ task: prevTaskValue }: Props) {
   const [task, setTask] = useState<TTask>(prevTaskValue);
-  const router = useRouter();
+  const { toast } = useToast();
 
   const update = async (status: string) => {
     const newTask = await updateStatus(task?.id ?? -1, status);
-    if (newTask) setTask(newTask[0]);
+    if (newTask) {
+      setTask(newTask);
+      toast({
+        title: "Task status updated",
+        description: `Status of task "${newTask.name}" is updated to ${newTask.status}`,
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
   };
 
   const remove = async () => {
     const isRemoved = await removeTask(task?.id ?? -1);
-    if (isRemoved) router.refresh();
+    if (isRemoved) {
+      toast({
+        title: "Task deleted",
+        description: `Task "${task.name}" is deleted`,
+        variant: "destructive",
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
   };
 
   return (
