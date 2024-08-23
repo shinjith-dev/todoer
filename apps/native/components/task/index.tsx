@@ -1,73 +1,44 @@
 import { TTask } from "@/lib/types";
-import StatusSelect from "./status-select";
-import { removeTask, updateStatus } from "@/lib/queries";
 import { useState } from "react";
-import { IconCheck, IconPencil, IconTrash } from "@tabler/icons-react-native";
-import { useRouter } from "expo-router";
-import { PopupWrapper } from "./pop-up";
 import tw from "@/lib/twrnc";
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
+import { SheetManager } from "react-native-actions-sheet";
+import StatusModal from "./status-modal";
+import { useRouter } from "expo-router";
 
 type Props = {
   task: TTask;
+  refresh: () => void;
 };
 
-export default function Task({ task: prevTaskValue }: Props) {
-  const [task, setTask] = useState<TTask>(prevTaskValue);
-  const router = useRouter();
-
-  const update = async (status: string) => {
-    const newTask = await updateStatus(task?.id ?? -1, status);
-    if (newTask) setTask(newTask[0]);
-  };
-
-  const remove = async () => {
-    const isRemoved = await removeTask(task?.id ?? -1);
-    // reload logic
-  };
+export default function Task({ task, refresh }: Props) {
+  const [statusModal, setModal] = useState(false);
+  const openStatusModal = () => setModal(true);
 
   return (
-    <View
-      style={tw`rounded border p-4 my-2 flex gap-8 items-start justify-between`}
-    >
-      <View>
-        <Text style={tw`text-2xl mb-2 font-medium`}>{task.name}</Text>
-        <Text style={tw`text-sm text-subtle`}>{task.description}</Text>
-      </View>
+    <>
+      <Pressable
+        onPress={() => SheetManager.show("task-sheet", { payload: { task } })}
+        onLongPress={() =>
+          SheetManager.show("task-action", {
+            payload: { task, openStatusModal, refresh },
+          })
+        }
+        style={tw`rounded p-4 my-2 flex gap-8 bg-surface/75 shadow items-start justify-between`}
+      >
+        <View>
+          <Text style={tw`text-xl mb-2 text-fg font-medium`}>{task.name}</Text>
+          <Text style={tw`text-xs text-subtle`}>{task.description}</Text>
+        </View>
+      </Pressable>
 
-      {/* <View className="space-y-3" onClick={(e) => e.stopPropagation()}> */}
-      {/*   <StatusSelect status={task.status} updateStatus={update} /> */}
-
-      {/*   <View className="flex gap-2"> */}
-      {/*     <Button */}
-      {/*       title="Remove task" */}
-      {/*       variant="icon" */}
-      {/*       size="icon" */}
-      {/*       className="bg-destructive/75 hover:bg-destructive/50" */}
-      {/*       onClick={remove} */}
-      {/*     > */}
-      {/*       <IconTrash size={18} className="text-destructive-fg" /> */}
-      {/*     </Button> */}
-      {/*     <Button */}
-      {/*       title="Edit task" */}
-      {/*       variant="icon" */}
-      {/*       size="icon" */}
-      {/*       className="bg-overlay/75 hover:bg-overlay/50" */}
-      {/*     > */}
-      {/*       <IconPencil size={18} className="text-secondary" /> */}
-      {/*     </Button> */}
-      {/*     <Button */}
-      {/*       title="Mark task as completed" */}
-      {/*       variant="icon" */}
-      {/*       size="icon" */}
-      {/*       className="bg-overlay/75 hover:bg-overlay/50" */}
-      {/*       disabled={task.status === "completed"} */}
-      {/*       onClick={() => update("completed")} */}
-      {/*     > */}
-      {/*       <IconCheck size={18} className="text-primary" /> */}
-      {/*     </Button> */}
-      {/*   </View> */}
-      {/* </View> */}
-    </View>
+      {statusModal && (
+        <StatusModal
+          task={task}
+          close={() => setModal(false)}
+          refresh={refresh}
+        />
+      )}
+    </>
   );
 }

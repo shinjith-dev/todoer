@@ -1,43 +1,28 @@
 import tw from "@/lib/twrnc";
-import { getTasks } from "@/lib/queries";
 import { TTask } from "@/lib/types";
-import { useState, useEffect } from "react";
 import { View, Text, FlatList } from "react-native";
 import Task from "./task";
 
-export default function Tasks() {
-  const [tasks, setTasks] = useState<TTask[]>([]);
+type Props = {
+  status: "Pending" | "Ongoing" | "Completed";
+  tasks: TTask[];
+  refresh: () => void;
+};
 
-  useEffect(() => {
-    const getTodos = async () => {
-      try {
-        const { data, error } = await getTasks();
-        if (error) {
-          console.error("Error fetching tasks:", error.message);
-          return;
-        }
-
-        if (data && data.length > 0) {
-          setTasks(data);
-        }
-      } catch (error: any) {
-        console.error("Error fetching tasks:", error?.message);
-      }
-    };
-
-    getTodos();
-  }, []);
-
-  console.log("Data::", tasks);
+export default function Tasks({ status, tasks, refresh }: Props) {
+  if (tasks.filter((t) => t.status === status.toLowerCase()).length === 0)
+    return null;
 
   return (
     <View>
-      <Text style={tw`text-2xl font-semibold mb-3`}>Pending</Text>
+      <Text style={tw`text-xl text-fg font-semibold mb-1`}>{status}</Text>
 
       <FlatList
-        data={tasks}
+        data={tasks.filter((t) => t.status === status.toLowerCase())}
         keyExtractor={(item) => item?.id?.toString() ?? ""}
-        renderItem={({ item }) => <Task key={item.id} task={item} />}
+        renderItem={({ item }) => (
+          <Task key={item.id} task={item} refresh={refresh} />
+        )}
       />
     </View>
   );

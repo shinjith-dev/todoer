@@ -12,6 +12,8 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
+        tabBarActiveBackgroundColor: "#233442",
+        tabBarInactiveBackgroundColor: "#233442",
       }}
     >
       <Tabs.Screen
@@ -20,6 +22,15 @@ export default function TabLayout() {
           title: "Pending",
           tabBarIcon: ({ color }: { color: string }) => (
             <TabBarIcon name={"pending"} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="add-task"
+        options={{
+          title: "New Task",
+          tabBarIcon: ({ color }: { color: string }) => (
+            <TabBarIcon name={"new"} color={color} />
           ),
         }}
       />
