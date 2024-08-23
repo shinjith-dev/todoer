@@ -28,10 +28,10 @@ export default function Task({ task: prevTaskValue }: Props) {
 
   return (
     <View
-      style={tw`rounded border p-4 my-2 cursor-pointer flex gap-8 items-start justify-between`}
+      style={tw`rounded border p-4 my-2 flex gap-8 items-start justify-between`}
     >
-      <View style={tw`space-y-2`}>
-        <Text style={tw`text-2xl font-medium`}>{task.name}</Text>
+      <View>
+        <Text style={tw`text-2xl mb-2 font-medium`}>{task.name}</Text>
         <Text style={tw`text-sm text-subtle`}>{task.description}</Text>
       </View>
 
