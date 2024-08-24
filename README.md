@@ -2,9 +2,9 @@
 
 Cross platform task management app
 
-## Screenshots
+## Demo video
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+[Demo video on loom](https://www.loom.com/share/f7c250b3b2a941d0b874b5609371c0bc?sid=6e20f2c9-54bf-4fa8-af90-91a484fabd2f)
 
 ## Tech Stack
 
