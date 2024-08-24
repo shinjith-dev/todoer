@@ -24,6 +24,7 @@ Cross platform task management app
 - TypeScript - for static type checking
 - React Hook Form - forms
   - zod - form validation
+- Turborepo - monorepo managing tool
 - tabler icons - Icon set
 
 ## Run Locally
