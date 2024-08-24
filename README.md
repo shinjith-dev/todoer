@@ -8,24 +8,24 @@ Cross platform task management app
 
 ## Tech Stack
 
-- React - JS library
-- React Native - Native framework
-- Expo - React Native eco system
+- React - js library
+- React Native - native framework
+- Expo - react native eco system
   - Expo Router
   - And other many libraries comes woth the ecosystem
 - react-native-bottom-sheet - bottom sheet drawer ui
-- react-native-picker-select - Select input for react native
+- react-native-picker-select - select input for react native
 - @react-native-async-storage/async-storage - query caching
 - twrnc - tailwind support for react native
-- Nextjs - React framework for web
-- Tailwind - Styling
+- Nextjs - react framework for web
+- Tailwind - styling
 - Radix UI Components - components like select, dialog, ...
 - MockAPI - API endpoints
 - TypeScript - for static type checking
 - React Hook Form - forms
   - zod - form validation
 - Turborepo - monorepo managing tool
-- tabler icons - Icon set
+- tabler-icons - icon set
 
 ## Run Locally
 
@@ -55,12 +55,20 @@ Head to `http://localhost:3000` on browser
 
 ## Mobile App
 
-_Pre-requesite_
+_Pre-requesite for running on physical device_
 
 - Android Platform Tools installed
 - USB Debugging enabled on your mobile device
-- Both systems are connected to smae local network and connected by usb
+- Both systems are connected to same local network and connected by usb
 - Ensure that `adb devices` command lists your device
+- set all environment variables mentioned below
+
+_or_ 
+
+Instead of running on physical device you can run on an emulator in the pc itself, for that you must install and verify
+- Java SDK
+- Android Studio
+- Emulator with API level 34 (UpsideDownCake)
 - set all environment variables mentioned below
 
 If above steps are completed and verified run below command
@@ -70,7 +78,7 @@ If above steps are completed and verified run below command
   yarn dev
 ```
 
-Scan QR Code generated on the terminal, it install required version of expo go and starts the app
+Scan QR Code generated on the terminal, it will install required version of expo go and starts the app
 
 ## Environment Variables
 
