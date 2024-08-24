@@ -9,17 +9,6 @@ import { useFocusEffect } from "expo-router";
 
 export default function HomeScreen() {
   const [tasks, setTasks] = useState<TTask[]>([]);
-  const [forceUpdate, refresh] = useState(false);
-
-  useEffect(() => {
-    getTasks()
-      .then((data) => {
-        if (data && data.length > 0) setTasks(data);
-      })
-      .catch((err) => {
-        console.error("Failed fetch tasks", err);
-      });
-  }, [forceUpdate]);
 
   useFocusEffect(() => {
     getTasks()
@@ -30,6 +19,16 @@ export default function HomeScreen() {
         console.error("Failed fetch tasks", err);
       });
   });
+
+  const refresh = () => {
+    getTasks()
+      .then((data) => {
+        if (data && data.length > 0) setTasks(data);
+      })
+      .catch((err) => {
+        console.error("Failed fetch tasks", err);
+      });
+  };
 
   return (
     <SafeAreaView style={tw`pt-4 bg-background h-full px-5`}>
@@ -46,11 +45,7 @@ export default function HomeScreen() {
         </Text>
       </View>
 
-      <Tasks
-        status="Pending"
-        tasks={tasks}
-        refresh={() => refresh((prev) => !prev)}
-      />
+      <Tasks status="Pending" tasks={tasks} refresh={refresh} />
 
       <Text style={tw`text-center text-muted my-1 text-xs`}>
         Tap to open, tap and hold for more options
